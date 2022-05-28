@@ -5,6 +5,7 @@
 
 void init_color(COLOR *c, int r, int g, int b)
 {
+    (*c) = (COLOR)malloc(sizeof(Color));
     (*c)->red = r;
     (*c)->green = g;
     (*c)->blue = b;
@@ -61,9 +62,23 @@ COLOR normalized(COLOR c, int pixelCount)
     return col;
 }
 
-void addColor(COLOR c1, COLOR c2)
+// void addColor(COLOR c1, COLOR c2)
+// {
+//     c1->red = c1->red + c2->red;
+//     c1->green = c1->green + c2->green;
+//     c1->blue = c1->blue + c2->blue;
+// }
+
+int getColorIndex(COLOR color, int level)
 {
-    c1->red = c1->red + c2->red;
-    c1->green = c1->green + c2->green;
-    c1->blue = c1->blue + c2->blue;
+    int index = 0;
+    int mask = 0b10000000 >> level;
+    if (color->red & mask)
+        index = index | 0b100;
+    if (color->green & mask)
+        index = index | 0b010;
+    if (color->blue & mask)
+        index = index | 0b001;
+
+    return index;
 }
