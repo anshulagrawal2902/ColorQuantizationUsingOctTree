@@ -1,18 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "OctNode.h"
+#include "headerResolver.h"
+
 int main()
 {
-    OCT_NODE OctNode;
-    initOctNode(&OctNode);
-    initOctNode(&(OctNode->children[3]));
-    OctNode->children[3]->pixelCount = 2;
+    QUANTIZER q;
+    init_Quantizer(&q, 8);
+    add_RGB_values_to_Quantizer("RGB_vals (5).txt", q);
     OCT_NODE *arr;
-    getLeafNodes(OctNode, &arr, 0);
-    for (int i = 0; i < 4; i++)
+    arr = getLeafNodes(q->root);
+    int i = 0;
+    while (arr[i] != NULL)
     {
-        printf("%d", arr[0]->pixelCount);
-    }
-    printf("%d", OctNode->c->blue);
-    printf("%d", OctNode->children[3]->c->blue);
+        }
 }

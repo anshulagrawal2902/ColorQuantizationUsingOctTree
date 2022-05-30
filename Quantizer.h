@@ -2,8 +2,8 @@
 typedef struct Quantizer
 {
 
-    OCT_NODE Node;
+    OCT_NODE root;
 } Quantizer;
 typedef Quantizer *QUANTIZER;
 void init_Quantizer(QUANTIZER *Quantizer);
-void addColortoQuantizer(COLOR c);
+void addColortoQuantizer(COLOR c, QUANTIZER q);

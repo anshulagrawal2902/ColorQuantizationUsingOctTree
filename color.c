@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "color.h"
 #include <string.h>
+#include "headerResolver.h"
 
 void init_color(COLOR *c, int r, int g, int b)
 {
@@ -62,12 +62,12 @@ COLOR normalized(COLOR c, int pixelCount)
     return col;
 }
 
-// void addColor(COLOR c1, COLOR c2)
-// {
-//     c1->red = c1->red + c2->red;
-//     c1->green = c1->green + c2->green;
-//     c1->blue = c1->blue + c2->blue;
-// }
+void addTwoColors(COLOR c1, COLOR c2)
+{
+    c1->red = c1->red + c2->red;
+    c1->green = c1->green + c2->green;
+    c1->blue = c1->blue + c2->blue;
+}
 
 int getColorIndex(COLOR color, int level)
 {
