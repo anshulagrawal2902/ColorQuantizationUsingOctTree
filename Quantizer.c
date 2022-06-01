@@ -59,3 +59,10 @@ void add_RGB_values_to_Quantizer(char *fileName, QUANTIZER Quantizer)
         addColortoQuantizer(c, Quantizer);
     }
 }
+
+OCT_NODE *getLeafNodesOfQuantizer(QUANTIZER Quantizer)
+{
+    return getLeafNodes(Quantizer->root);
+}
+
+COLOR *makePallete

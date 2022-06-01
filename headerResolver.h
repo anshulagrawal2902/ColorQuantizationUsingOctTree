@@ -51,11 +51,14 @@ OCT_NODE *getLeafNodes(OCT_NODE OctNode);
 void addColor(COLOR color, OCT_NODE OctNode, int level, QUANTIZER Quantizer);
 COLOR getColor(OCT_NODE OctNode);
 int removeLeaves(OCT_NODE OctNode);
+int getSizeOfLeafNodeArray(OCT_NODE *arr);
 
 //QUANTIZER FUNCTIONS
 void init_Quantizer(QUANTIZER *Quantizer, int levels);
 void addColortoQuantizer(COLOR c, QUANTIZER q);
 void addLevelNode(OCT_NODE OctNode, int level, QUANTIZER Quantizer);
+OCT_NODE *getLeafNodesOfQuantizer(QUANTIZER Quantizer);
+COLOR *makePallete(int colorCount, QUANTIZER Quantizer);
 
 //UTILS FUNCTIONS
 void add_RGB_values_to_Quantizer(char *fileName, QUANTIZER Quantizer);

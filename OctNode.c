@@ -86,7 +86,7 @@ int removeLeaves(OCT_NODE OctNode)
     int count = 0;
     for (int i = 0; i < 8; i++)
     {
-        if (OctNode->children[i] != NULL)
+        if (OctNode->children[i] == NULL)
             continue;
         addTwoColors(OctNode->c, OctNode->children[i]->c);
         OctNode->pixelCount++;
@@ -97,4 +97,14 @@ int removeLeaves(OCT_NODE OctNode)
         OctNode->children[i] = NULL;
     }
     return count - 1;
+}
+
+int getSizeOfLeafNodeArray(OCT_NODE *arr)
+{
+    int i = 0;
+    while (arr[i] != NULL)
+    {
+        i++;
+    }
+    return i;
 }
