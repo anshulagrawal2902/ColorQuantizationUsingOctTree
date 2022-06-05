@@ -7,6 +7,9 @@ color.o : color.c
 headerResolver.gch : headerResolver.h 
 	gcc -c headerResolver.h 
 
+readingBitmap.o : readingBitmap.c 
+	gcc -c readingBitmap.c
+
 # color.gch : color.h
 # 	gcc -c color.h
 
@@ -22,6 +25,6 @@ Quantizer.o : Quantizer.c
 # Quantizer.gch : Quantizer.h
 # 	gcc -c Quantizer.h
 
-output : main.o color.o OctNode.o Quantizer.o 
-	gcc main.o color.o OctNode.o Quantizer.o  -o output
+output : main.o color.o OctNode.o Quantizer.o readingBitmap.o
+	gcc main.o color.o OctNode.o Quantizer.o  readingBitmap.o -o output
 

@@ -52,13 +52,18 @@ void addColor(COLOR color, OCT_NODE OctNode, int level, QUANTIZER Quantizer);
 COLOR getColor(OCT_NODE OctNode);
 int removeLeaves(OCT_NODE OctNode);
 int getSizeOfLeafNodeArray(OCT_NODE *arr);
+int getPalleteIndex(COLOR color, int level, OCT_NODE OctNode);
 
 //QUANTIZER FUNCTIONS
-void init_Quantizer(QUANTIZER *Quantizer, int levels);
+void init_Quantizer(QUANTIZER *Quantizer);
 void addColortoQuantizer(COLOR c, QUANTIZER q);
 void addLevelNode(OCT_NODE OctNode, int level, QUANTIZER Quantizer);
 OCT_NODE *getLeafNodesOfQuantizer(QUANTIZER Quantizer);
 COLOR *makePallete(int colorCount, QUANTIZER Quantizer);
+void writePalleteToFile(char *fileName, COLOR *pallete);
+void printLevelsOfQuantizer(QUANTIZER Quantizer);
+void printColorPallete(COLOR *pallete);
+void writeQuantizedImageToFile(QUANTIZER Quantizer, char* fileName, COLOR* pallete, char* imageFileName);
 
 //UTILS FUNCTIONS
 void add_RGB_values_to_Quantizer(char *fileName, QUANTIZER Quantizer);

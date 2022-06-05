@@ -57,7 +57,6 @@ OCT_NODE *getLeafNodes(OCT_NODE OctNode)
 
 void addColor(COLOR color, OCT_NODE OctNode, int level, QUANTIZER quant)
 {
-
     if (level >= MAX_DEPTH)
     {
         addTwoColors(OctNode->c, color);
@@ -89,13 +88,15 @@ int removeLeaves(OCT_NODE OctNode)
         if (OctNode->children[i] == NULL)
             continue;
         addTwoColors(OctNode->c, OctNode->children[i]->c);
-        OctNode->pixelCount++;
+        OctNode->pixelCount += OctNode->children[i]->pixelCount;
         count++;
     }
     for (int i = 0; i < 8; i++)
     {
         OctNode->children[i] = NULL;
     }
+    if (count == 0)
+        return 0;
     return count - 1;
 }
 
@@ -108,3 +109,29 @@ int getSizeOfLeafNodeArray(OCT_NODE *arr)
     }
     return i;
 }
+
+int getPalleteIndex(COLOR color, int level, OCT_NODE OctNode)
+{
+    if (isLeaf(OctNode))
+        return OctNode->palleteIndex;
+    int index = getColorIndex(color, level);
+    if (OctNode->children[index] != NULL)
+    {
+        return getPalleteIndex(color, level + 1, OctNode->children[index]);
+    }
+    else
+    {
+        int i = 0;
+        while (i < 8)
+        {
+            if (OctNode->children[i] != NULL)
+            {
+                return getPalleteIndex(color, level + 1, OctNode->children[i]);
+            }
+            i++;
+        }
+    }
+}
+
+
+
