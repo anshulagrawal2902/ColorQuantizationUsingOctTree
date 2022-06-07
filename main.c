@@ -5,14 +5,9 @@
 
 int main()
 {
-
-    BITMAPINFOHEADER bitmapInfoHeader;
-    unsigned char *bitmapData;
-    bitmapData = LoadBitmapFile("image3.bmp", &bitmapInfoHeader, "image3.txt");
-
     QUANTIZER q;
     init_Quantizer(&q);
-    add_RGB_values_to_Quantizer("image3.txt", q);
-    COLOR *pallete = makePallete(100, q);
-    writeQuantizedImageToFile(q, "qimage3.txt", pallete, "image3.txt");
+    add_RGB_values_to_Quantizer("image1.txt", q);
+    COLOR *pallete = makePallete(256, q);
+    writeQuantizedImageToFile(q, "qimage1.txt", pallete, "image1.txt");
 }

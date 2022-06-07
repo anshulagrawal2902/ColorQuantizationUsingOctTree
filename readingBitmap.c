@@ -5,11 +5,11 @@
 
 unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader, char *textFileName)
 {
-    FILE *filePtr;                     
-    BITMAPFILEHEADER bitmapFileHeader; 
-    unsigned char *bitmapImage;        
-    int imageIdx = 0;                  
-    unsigned char tempRGB;             
+    FILE *filePtr;
+    BITMAPFILEHEADER bitmapFileHeader;
+    unsigned char *bitmapImage;
+    int imageIdx = 0;
+    unsigned char tempRGB;
 
     //open file in read binary mode
     filePtr = fopen(filename, "rb");
@@ -33,7 +33,7 @@ unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
     fseek(filePtr, bitmapFileHeader.bfOffBits, SEEK_SET);
 
     //allocate enough memory for the bitmap image data
-    bitmapImage = (unsigned char *)malloc(bitmapInfoHeader->biSizeImage);
+    bitmapImage = (unsigned char *)malloc(sizeof(unsigned char) * bitmapInfoHeader->biSizeImage);
 
     //verify memory allocation
     if (!bitmapImage)
@@ -66,19 +66,12 @@ unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
 
     // writing bmp image to text file
     FILE *filePtr1 = fopen(textFileName, "w");
-    char ch = '0';
-    ch = fgetc(filePtr1);
 
     for (int i = 0; i < bitmapInfoHeader->biSizeImage; i++)
     {
-
-        // printf("%d ", bitmapImage[i]);
-        fprintf(filePtr1, "%d ", bitmapImage[i]);
+        fprintf(filePtr1, "%d ", bitmapImage[i]);   
     }
 
     fclose(filePtr1);
     return bitmapImage;
 }
-
-
-

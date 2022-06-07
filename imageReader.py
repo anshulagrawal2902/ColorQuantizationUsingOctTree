@@ -1,8 +1,8 @@
 from PIL import Image 
 from colour import Color
 
-file1 = open("download.txt", "w")
-image = Image.open('download.png')
+file1 = open("image1", "w")
+image = Image.open('image1.bmp')
 image_rgb = image.convert('RGB')
 
 pixels = image.load()
