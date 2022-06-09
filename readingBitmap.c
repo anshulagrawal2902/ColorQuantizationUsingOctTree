@@ -1,77 +1,43 @@
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include "readingBitmap.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+#include"readingBitmap.h"
 
-unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader, char *textFileName)
+image_Array readImage(FILE* fp,int h,int w, char* toTXT)
 {
-    FILE *filePtr;
-    BITMAPFILEHEADER bitmapFileHeader;
-    unsigned char *bitmapImage;
-    int imageIdx = 0;
-    unsigned char tempRGB;
-
-    //open file in read binary mode
-    filePtr = fopen(filename, "rb");
-    if (filePtr == NULL)
-        return NULL;
-
-    //read the bitmap file header
-    fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
-
-    //verify that this is a .BMP file by checking bitmap id
-    if (bitmapFileHeader.bfType != 0x4D42)
+    FILE *fw = fopen(toTXT,"w");
+    image_Array pic;
+    int i;
+    pic.pixel_array=(pixel**)malloc(h*sizeof(void*));
+    pic.height=h;
+    pic.width=w;
+    for(i=h-1; i>=0; i--)
     {
-        fclose(filePtr);
-        return NULL;
+        pic.pixel_array[i]=(pixel*)malloc(w*sizeof(pixel));
+        fread(pic.pixel_array[i], w, sizeof(pixel), fp);
     }
-
-    //read the bitmap info header
-    fread(bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, filePtr);
-
-    //move file pointer to the beginning of bitmap data
-    fseek(filePtr, bitmapFileHeader.bfOffBits, SEEK_SET);
-
-    //allocate enough memory for the bitmap image data
-    bitmapImage = (unsigned char *)malloc(sizeof(unsigned char) * bitmapInfoHeader->biSizeImage);
-
-    //verify memory allocation
-    if (!bitmapImage)
-    {
-        free(bitmapImage);
-        fclose(filePtr);
-        return NULL;
+    for(int i=0; i<h; i++) {
+        for(int j=0; j<w; j++) {
+            fprintf(fw, "%d %d %d ", pic.pixel_array[i][j].red, pic.pixel_array[i][j].green, pic.pixel_array[i][j].blue);
+        }
+        fprintf(fw, "\n");
     }
-
-    //read in the bitmap image data
-    fread(bitmapImage, bitmapInfoHeader->biSizeImage, 1, filePtr);
-
-    //make sure bitmap image data was read
-    if (bitmapImage == NULL)
-    {
-        fclose(filePtr);
-        return NULL;
-    }
-
-    //swap the R and B values to get RGB (bitmap is BGR)
-    // for (imageIdx = 0; imageIdx < bitmapInfoHeader->biSizeImage; imageIdx += 3)
-    // {
-    //     tempRGB = bitmapImage[imageIdx];
-    //     bitmapImage[imageIdx] = bitmapImage[imageIdx + 2];
-    //     bitmapImage[imageIdx + 2] = tempRGB;
-    // }
-
-    //close file and return bitmap image data
-    fclose(filePtr);
-
-    // writing bmp image to text file
-    FILE *filePtr1 = fopen(textFileName, "w");
-
-    for (int i = 0; i < bitmapInfoHeader->biSizeImage; i++)
-    {
-        fprintf(filePtr1, "%d ", bitmapImage[i]);   
-    }
-
-    fclose(filePtr1);
-    return bitmapImage;
+    fclose(fw);
+    return pic;
 }
+
+
+
+void openbmpfile(char* fileName, char* toTXT)
+{
+    FILE *fp=fopen(fileName,"rb");
+    BITMAPHEADER header;
+    BITMAPINFOHEADER dib;
+    image_Array img;
+    fread(header.name,2,1,fp);
+    fread(&header.size,3*sizeof(int),1,fp);
+    fread(&dib,sizeof(BITMAPINFOHEADER),1,fp);
+    fseek(fp,header.image_offset,SEEK_SET);
+    img=readImage(fp,dib.height,dib.width, toTXT);
+}
+

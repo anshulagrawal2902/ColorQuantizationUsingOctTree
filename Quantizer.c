@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include<string.h>
 #include "headerResolver.h"
 
 #ifndef Constants
@@ -31,8 +32,20 @@ void addLevelNode(OCT_NODE OctNode, int level, QUANTIZER Quantizer)
     Quantizer->levels[level] = LevelsNode;
 }
 
-void add_RGB_values_to_Quantizer(char *fileName, QUANTIZER Quantizer)
+void add_RGB_values_to_Quantizer(char *imageFileName, QUANTIZER Quantizer)
 {
+    char fileName[100] ;
+    strcpy(fileName, imageFileName);
+
+    fileName[strlen(fileName) - 3] = 't';
+    fileName[strlen(fileName) - 2] = 'x';
+    fileName[strlen(fileName) - 1] = 't';
+
+    // printf("%s ", fileName);
+
+    //making that txt file
+    openbmpfile(imageFileName, fileName);
+    
     FILE *filePtr = fopen(fileName, "r");
     if (NULL == filePtr)
     {

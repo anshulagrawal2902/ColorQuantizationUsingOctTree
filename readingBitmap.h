@@ -2,41 +2,39 @@
 #include <stdint.h>
 #include<stdlib.h>
 
-typedef uint32_t DWORD;   // DWORD = unsigned 32 bit value
-typedef uint16_t WORD;    // WORD = unsigned 16 bit value
-typedef uint8_t BYTE;     // BYTE = unsigned 8 bit value
-
-
-#pragma pack(push, 1)
-
-typedef struct tagBITMAPFILEHEADER
+typedef struct BITMAPHEADER
 {
-    WORD bfType;  //specifies the file type
-    DWORD bfSize;  //specifies the size in bytes of the bitmap file
-    WORD bfReserved1;  //reserved; must be 0
-    WORD bfReserved2;  //reserved; must be 0
-    DWORD bfOffBits;  //specifies the offset in bytes from the bitmapfileheader to the bitmap bits
-}BITMAPFILEHEADER;
+    char name[2];
+    unsigned int size;
+    int garbage;
+    unsigned int image_offset;
+}BITMAPHEADER;
 
-#pragma pack(pop)
-
-#pragma pack(push, 1)
-
-typedef struct tagBITMAPINFOHEADER
+typedef struct BITMAPINFOHEADER
 {
-    DWORD biSize;  //specifies the number of bytes required by the struct
-    DWORD biWidth;  //specifies width in pixels
-    DWORD biHeight;  //specifies height in pixels
-    WORD biPlanes;  //specifies the number of color planes, must be 1
-    WORD biBitCount;  //specifies the number of bits per pixel
-    DWORD biCompression;  //specifies the type of compression
-    DWORD biSizeImage;  //size of image in bytes
-    DWORD biXPelsPerMeter;  //number of pixels per meter in x axis
-    DWORD biYPelsPerMeter;  //number of pixels per meter in y axis
-    DWORD biClrUsed;  //number of colors used by the bitmap
-    DWORD biClrImportant;  //number of colors that are important
+    unsigned int header_size;
+    unsigned int width;
+    unsigned int height;
+    unsigned short int colorplanes;
+    unsigned short int bitsperpixel;
+    unsigned int compression;
+    unsigned int image_size;
 }BITMAPINFOHEADER;
 
-#pragma pack(pop)
+typedef struct pixel
+{
+    unsigned char blue;
+    unsigned char green;
+    unsigned char red;
+}pixel;
 
-unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader, char* textFileName);
+typedef struct image_Array
+{
+    int height;
+    int width;
+    pixel** pixel_array;
+}image_Array;
+
+
+void openbmpfile(char* fileName, char* toTXT);
+image_Array readImage(FILE* fp,int h,int w, char* toTXT);
