@@ -64,6 +64,7 @@ void writePalleteToFile(char *fileName, COLOR *pallete);
 void printLevelsOfQuantizer(QUANTIZER Quantizer);
 void printColorPallete(COLOR *pallete);
 void writeQuantizedImageToFile(QUANTIZER Quantizer, char* fileName, COLOR* pallete, char* imageFileName);
+void QUANTIZE(char* imageName, int colorCount);
 
 //UTILS FUNCTIONS
 void add_RGB_values_to_Quantizer(char *fileName, QUANTIZER Quantizer);

@@ -20,7 +20,7 @@ image_Array readImage(FILE* fp,int h,int w, char* toTXT)
         for(int j=0; j<w; j++) {
             fprintf(fw, "%d %d %d ", pic.pixel_array[i][j].red, pic.pixel_array[i][j].green, pic.pixel_array[i][j].blue);
         }
-        fprintf(fw, "\n");
+        // fprintf(fw, "\n");
     }
     fclose(fw);
     return pic;

@@ -32,20 +32,8 @@ void addLevelNode(OCT_NODE OctNode, int level, QUANTIZER Quantizer)
     Quantizer->levels[level] = LevelsNode;
 }
 
-void add_RGB_values_to_Quantizer(char *imageFileName, QUANTIZER Quantizer)
-{
-    char fileName[100] ;
-    strcpy(fileName, imageFileName);
-
-    fileName[strlen(fileName) - 3] = 't';
-    fileName[strlen(fileName) - 2] = 'x';
-    fileName[strlen(fileName) - 1] = 't';
-
-    // printf("%s ", fileName);
-
-    //making that txt file
-    openbmpfile(imageFileName, fileName);
-    
+void add_RGB_values_to_Quantizer(char *fileName, QUANTIZER Quantizer)
+{   
     FILE *filePtr = fopen(fileName, "r");
     if (NULL == filePtr)
     {
@@ -208,3 +196,13 @@ void writeQuantizedImageToFile(QUANTIZER Quantizer, char* fileName, COLOR* palle
     fclose(filePtr1);
     fclose(filePtr2);
 }
+
+void QUANTIZE(char* imageName, int colorCount){
+    QUANTIZER q;
+    init_Quantizer(&q);
+    openbmpfile(imageName, "temporary.txt");
+    add_RGB_values_to_Quantizer("temporary.txt", q);
+    COLOR *pallete = makePallete(colorCount, q);
+    writeQuantizedImageToFile(q, "quantizedImage.txt", pallete, "temporary.txt");
+}
+
